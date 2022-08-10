@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:neww/Tabs/Quran_Tab/Sura_Details/Sura_Details_Screen.dart';
 class QuranSuraItem extends StatelessWidget {
-  String names ;
-  QuranSuraItem(this.names);
+  String name;
+  int index;
+
+  QuranSuraItem(this.name, this.index);
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text("${names }",textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headline3,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, SuraDetailsScreen.routeName,
+            arguments: SuraDetailsModel(name, index));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          '$name',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline2,
+        ),
       ),
     );
   }
