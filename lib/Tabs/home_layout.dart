@@ -3,48 +3,80 @@ import 'package:neww/Tabs/Ahadeth_Tab/Ahadeth.dart';
 import 'package:neww/Tabs/Quran_Tab/quran.dart';
 import 'package:neww/Tabs/Radio_Tab/RadioScreen.dart';
 import 'package:neww/Tabs/sebha/sebha.dart';
-class homelayout extends StatefulWidget {
-  static const String routeNmae ='home';
+import 'package:neww/Tabs/setting/settings.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../providers/my_provider.dart';
+class HomeLayout extends StatefulWidget {
+  static const String routeName = 'home';
 
   @override
-  State<homelayout> createState() => _homelayoutState();
+  State<HomeLayout> createState() => _HomeLayoutState();
 }
 
-class _homelayoutState extends State<homelayout> {
-  int currentindex = 0 ;
+class _HomeLayoutState extends State<HomeLayout> {
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    var provider=Provider.of<MyProviderApp>(context);
     return Stack(
       children: [
-        Image.asset("assets/images/main_background.png",width: double.infinity,height: double.infinity,fit: BoxFit.fill,),
+        Image.asset(
+          provider.getBackground(),
+          width: double.infinity,
+          height: double.infinity,
+          fit: BoxFit.fill,
+        ),
         Scaffold(
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
-            // backgroundColor: Colors.transparent,
-            // shadowColor: Colors.transparent,
-            title: Text("Islami",style: Theme.of(context).textTheme.headline4),),
+            title: Text(
+              '${AppLocalizations.of(context)!.islamiTitle}',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+          ),
           bottomNavigationBar: Theme(
             data: Theme.of(context).copyWith(
-              canvasColor: Theme.of(context).primaryColor
+              canvasColor: Theme.of(context).primaryColor,
             ),
             child: BottomNavigationBar(
-              currentIndex: currentindex,
-              onTap: (index){
-                currentindex = index ;
+              onTap: (index) {
+                currentIndex = index;
                 setState(() {});
               },
+              currentIndex: currentIndex,
               items: [
-              BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/images/moshaf_blue.png')) ,label: "moshaf"),
-              BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/images/sebha.png')) ,label: "sebha"),
-              BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/images/radio.png')) ,label: "radio"),
-              BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/images/ahadeth.png')) ,label: "ahadeth"),
-
-            ],),
+                BottomNavigationBarItem(
+                    icon: ImageIcon(AssetImage('assets/images/quran.png')),
+                    label: AppLocalizations.of(context)!.quran),
+                BottomNavigationBarItem(
+                    icon: ImageIcon(AssetImage('assets/images/sebha.png')),
+                    label: AppLocalizations.of(context)!.tsbeh),
+                BottomNavigationBarItem(
+                    icon: ImageIcon(AssetImage('assets/images/radio.png')),
+                    label: AppLocalizations.of(context)!.radio),
+                BottomNavigationBarItem(
+                    icon: ImageIcon(AssetImage('assets/images/ahadeth.png')),
+                    label: AppLocalizations.of(context)!.ahadeth),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: AppLocalizations.of(context)!.settings),
+              ],
+            ),
           ),
-          body: Tabs[currentindex],
+          body: tabs[currentIndex],
         )
       ],
     );
   }
-  List<Widget> Tabs =[QuranScreen(),SebhaScreen(),RadioScreen(),AhadethScreen()];
+
+  List<Widget> tabs = [
+    QuranScreen(),
+    SebhaTab(),
+    RadioScreen(),
+    AhadethScreen(),
+    SettingsScreen()
+  ];
 }

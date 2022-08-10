@@ -3,7 +3,7 @@ import 'package:neww/Tabs/Quran_Tab/qurqn_sura_item.dart';
 import 'package:neww/themes.dart';
 
 class QuranScreen extends StatelessWidget {
-  List<String> names = [
+  List<String> name = [
     "الفاتحه",
     "البقرة",
     "آل عمران",
@@ -119,24 +119,25 @@ class QuranScreen extends StatelessWidget {
     "الفلق",
     "الناس"
   ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(child: Image.asset("assets/images/header_quran.png")),
+        Center(child: Image.asset('assets/images/header_quran_bg.png')),
         Expanded(
           child: ListView.separated(
-            separatorBuilder: (_,index){
+            separatorBuilder: (_, index) {
               return Container(
-                height: 2,
-                margin: EdgeInsets.symmetric(horizontal: 50 ),
-                color: MyThemeData.primarycolor,
+                height: 1,
+                margin: EdgeInsets.symmetric(horizontal: 50),
+                color: MyThemeData.primaryColor,
               );
             },
             itemBuilder: (_, index) {
-              return QuranSuraItem(names[index]);
+              return QuranSuraItem('${name[index]}', index);
             },
-            itemCount: names.length,
+            itemCount: name.length,
           ),
         )
       ],
